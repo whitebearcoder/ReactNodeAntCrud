@@ -11,7 +11,8 @@ class RequestHelper {
       Authorization: '',
       'Content-Type': '',
     };
-    if (method === 'POST') headers['Content-Type'] = 'application/json';
+    if (method === 'POST' || method === 'PUT')
+      headers['Content-Type'] = 'application/json';
     return headers;
   };
 
@@ -42,7 +43,22 @@ class RequestHelper {
       url: CONFIG['API_URL'] + URL,
       method: 'post',
       headers: this.makeHeader('POST'),
-      data: JSON.stringify(bodyObject),
+      data: bodyObject,
+    });
+    return {
+      headers: res.headers,
+      json: async () => res.data,
+      text: async () => res.data,
+      data: res.data,
+    };
+  };
+
+  put = async (URL: string, bodyObject: object) => {
+    const res = await axios.request({
+      url: CONFIG['API_URL'] + URL,
+      method: 'put',
+      headers: this.makeHeader('PUT'),
+      data: bodyObject,
     });
     return {
       headers: res.headers,

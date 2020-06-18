@@ -21,7 +21,9 @@ export const get = async function (req, res) {
 };
 
 export const update = async function (req, res) {
-  let [errFind, userFind] = await to(User.findOne({ where: req.params.id }));
+  let [errFind, userFind] = await to(
+    User.findOne({ where: { id: req.params.id } }),
+  );
   if (errFind) ReE(res, 'Not Found!', 422);
   userFind.set({
     ...req.body,

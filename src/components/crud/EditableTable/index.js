@@ -33,7 +33,6 @@ const EditableTable = () => {
     setData([
       ...state.users.users.map((item, nIndex) => {
         return {
-          key: item.id.toString(),
           ...item,
         };
       }),
@@ -64,6 +63,20 @@ const EditableTable = () => {
         const item = newData[index];
         newData.splice(index, 1, { ...item, ...row });
         setData(newData);
+
+        RequestHelper.put(`/user/${item.id}`, { ...row })
+          .then((res) => {
+            dispatch({
+              type: ACTION_TYPE.UPDATE_USER,
+              payload: {
+                key: key,
+                ...res.data.user,
+              },
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
         setEditingKey('');
       } else {
         newData.push(row);
