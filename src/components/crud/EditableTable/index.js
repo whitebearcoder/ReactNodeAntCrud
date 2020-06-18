@@ -88,13 +88,14 @@ const EditableTable = () => {
     }
   };
 
-  const deleteUser = async (key) => {
-    RequestHelper.delete(`/user/${key}`)
+  const deleteUser = async (id) => {
+    debugger;
+    RequestHelper.delete(`/user/${id}`)
       .then((res) => {
         if (res.data.success)
           dispatch({
             type: ACTION_TYPE.DELETE_USER,
-            payload: key,
+            payload: id,
           });
       })
       .catch((err) => {
@@ -147,8 +148,12 @@ const EditableTable = () => {
             </Popconfirm>
           </span>
         ) : (
-          <span>
-            <a disabled={editingKey !== ''} onClick={() => edit(record)}>
+          <span style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <a
+              disabled={editingKey !== ''}
+              onClick={() => edit(record)}
+              style={{ marginRight: '1rem' }}
+            >
               Edit
             </a>
             <Popconfirm
@@ -156,12 +161,12 @@ const EditableTable = () => {
               okText="Yes"
               cancelText="No"
               onConfirm={() => {
-                deleteUser(record.key);
+                debugger;
+                deleteUser(record.id);
               }}
             >
               <a>Delete</a>
             </Popconfirm>
-            ,
           </span>
         );
       },

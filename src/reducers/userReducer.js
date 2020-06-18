@@ -8,7 +8,7 @@ export default function userReducer(state = {}, action) {
         users: [
           ...action.payload.map((item, nIndex) => {
             return {
-              key: nIndex.toString(),
+              key: item.id.toString(),
               ...item,
             };
           }),

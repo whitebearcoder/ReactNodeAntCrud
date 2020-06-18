@@ -15,7 +15,6 @@ const AddUserModal = ({ isShow, hideModal }) => {
     setLoading(true);
     RequestHelper.post('/user', { ...values })
       .then((res) => {
-        debugger;
         if (res.data.success) {
           dispatch({
             type: ACTION_TYPE.ADD_USER,
