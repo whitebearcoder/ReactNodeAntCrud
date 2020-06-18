@@ -9,6 +9,7 @@ let CONFIG = {
     host: process.env.DB_HOST || '127.0.0.1',
     dialect: process.env.DB_DIALECT || 'mysql',
     operatorsAliases: false,
+    app_url: process.env.APP_URL || 'http://localhost:3000',
   },
   test: {
     app: process.env.APP || 'test',
@@ -19,6 +20,7 @@ let CONFIG = {
     host: process.env.DB_HOST || '127.0.0.1',
     dialect: process.env.DB_DIALECT || 'mysql',
     operatorsAliases: false,
+    app_url: process.env.APP_URL || 'http://localhost:3000',
   },
   production: {
     app: process.env.APP || 'product',
@@ -29,6 +31,7 @@ let CONFIG = {
     host: process.env.DB_HOST || '127.0.0.1',
     dialect: process.env.DB_DIALECT || 'mysql',
     operatorsAliases: false,
+    app_url: process.env.APP_URL || 'http://localhost:3000',
   },
 }
 module.exports = CONFIG

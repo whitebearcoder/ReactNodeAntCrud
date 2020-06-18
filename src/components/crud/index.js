@@ -1,7 +1,7 @@
-import React from "react";
-import { Layout } from "antd";
-import styled from "styled-components";
-import EditableTable from "./EditableTable";
+import React from 'react';
+import { Layout } from 'antd';
+import styled from 'styled-components';
+import EditableTable from './EditableTable';
 const { Header, Content } = Layout;
 
 const CrudPage = () => {
@@ -20,5 +20,7 @@ const StyledHeader = styled(Header)`
   font-size: 2rem;
 `;
 
-const StyledContent = styled(Content)``;
+const StyledContent = styled(Content)`
+  padding: 24px;
+`;
 export default CrudPage;

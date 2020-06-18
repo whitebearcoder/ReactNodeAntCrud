@@ -1,13 +1,14 @@
-import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
-import CrudPage from "./components/crud";
+import React, { useReducer } from 'react';
+import { AppContext, reducer, initialState } from './context/AppContext';
+import CrudPage from './components/crud';
 
 function App() {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
   return (
-    <div className="App">
+    <AppContext.Provider value={{ state, dispatch }}>
       <CrudPage />
-    </div>
+    </AppContext.Provider>
   );
 }
 
