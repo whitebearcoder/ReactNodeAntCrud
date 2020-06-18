@@ -109,24 +109,48 @@ const EditableTable = () => {
       dataIndex: 'id',
       width: '40px',
       editable: false,
+      sorter: {
+        compare: (a, b) => a.id - b.id,
+      },
     },
     {
       title: 'Name',
       dataIndex: 'name',
       width: '25%',
       editable: true,
+      sorter: {
+        compare: (a, b) => {
+          const aValue = a.name.toUpperCase();
+          const bValue = b.name.toUpperCase();
+          if (aValue < bValue) return -1;
+          if (aValue > bValue) return 1;
+          return 0;
+        },
+      },
     },
     {
       title: 'Age',
       dataIndex: 'age',
       width: '15%',
       editable: true,
+      sorter: {
+        compare: (a, b) => a.age - b.age,
+      },
     },
     {
       title: 'Address',
       dataIndex: 'address',
       width: '40%',
       editable: true,
+      sorter: {
+        compare: (a, b) => {
+          const aValue = a.name.toUpperCase();
+          const bValue = b.name.toUpperCase();
+          if (aValue < bValue) return -1;
+          if (aValue > bValue) return 1;
+          return 0;
+        },
+      },
     },
     {
       title: 'Action',
