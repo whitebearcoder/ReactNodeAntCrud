@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Button, Modal, Input, Form, InputNumber } from 'antd';
+import { Button, Modal, Input, Form, InputNumber, message } from 'antd';
 import RequestHelper from '../../utils/RequestUtils';
 import styled from 'styled-components';
 import { AppContext } from '../../context/AppContext';
@@ -26,6 +26,7 @@ const AddUserModal = ({ isShow, hideModal }) => {
               address: res.data.user.address,
             },
           });
+          message.success('User created successfully.');
         }
         setLoading(false);
         hideModal();
@@ -33,6 +34,7 @@ const AddUserModal = ({ isShow, hideModal }) => {
       .catch((err) => {
         console.log(err);
         setLoading(false);
+        message.success('Error occured create user.');
       });
   };
 

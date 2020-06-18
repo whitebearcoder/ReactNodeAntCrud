@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Table, Popconfirm, Form } from 'antd';
+import { Table, Popconfirm, Form, message } from 'antd';
 import EditableCell from './EditableCell';
 import RequestHelper from '../../../utils/RequestUtils';
 import './styles.css';
@@ -19,12 +19,18 @@ const EditableTable = () => {
   useEffect(() => {
     RequestHelper.get('/user/all')
       .then((res) => {
-        dispatch({
-          type: ACTION_TYPE.GET_USER_LISTS,
-          payload: res.data.users,
-        });
+        if (res.data.success) {
+          dispatch({
+            type: ACTION_TYPE.GET_USER_LISTS,
+            payload: res.data.users,
+          });
+          if (res.data.users.length === 0)
+            message.warning('There is not user.');
+          else message.success('Get user list success.');
+        }
       })
       .catch((err) => {
+        message.error('Get user list error.');
         console.log(err);
       });
   }, [dispatch]);
@@ -81,15 +87,21 @@ const EditableTable = () => {
 
         RequestHelper.put(`/user/${item.id}`, { ...row })
           .then((res) => {
-            dispatch({
-              type: ACTION_TYPE.UPDATE_USER,
-              payload: {
-                key: key,
-                ...res.data.user,
-              },
-            });
+            if (res.data.success) {
+              dispatch({
+                type: ACTION_TYPE.UPDATE_USER,
+                payload: {
+                  key: key,
+                  ...res.data.user,
+                },
+              });
+              message.success('User updated successfully.');
+            } else {
+              message.warning('User updated failed.');
+            }
           })
           .catch((err) => {
+            message.error('Error occured update user.');
             console.log(err);
           });
         setEditingKey('');
@@ -107,14 +119,17 @@ const EditableTable = () => {
     debugger;
     RequestHelper.delete(`/user/${id}`)
       .then((res) => {
-        if (res.data.success)
+        if (res.data.success) {
           dispatch({
             type: ACTION_TYPE.DELETE_USER,
             payload: id,
           });
+          message.success('User deleted successfully.');
+        }
       })
       .catch((err) => {
         console.log(err);
+        message.success('Error occured delete user.');
       });
   };
 
