@@ -5,6 +5,9 @@ const initialState = {
   users: {
     isLoaded: false,
     users: [],
+    filter: {
+      strValue: '',
+    },
   },
 };
 

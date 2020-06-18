@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
-import { Layout, Button, Row, Col } from 'antd';
+import React, { useState, useContext } from 'react';
+import { Layout, Button, Row, Col, Input } from 'antd';
 import styled from 'styled-components';
 import EditableTable from './EditableTable';
 import AddUserModal from './AddUserModal';
+import { AppContext } from '../../context/AppContext';
+import * as ACTION_TYPE from '../../reducers/actionType';
+
 const { Header, Content } = Layout;
 
 const CrudPage = () => {
+  const { state, dispatch } = useContext(AppContext);
   const [showAddModal, setShowAddModal] = useState(false);
   return (
     <>
@@ -13,6 +17,17 @@ const CrudPage = () => {
       <StyledContent className="xl">
         <Row>
           <StyledCol span={24}>
+            <FilterInput
+              size="small"
+              placeholder="Filter"
+              value={state.users.filter.strValue}
+              onChange={(e) => {
+                dispatch({
+                  type: ACTION_TYPE.CHANGE_USER_FILTER_STRING,
+                  payload: e.target.value,
+                });
+              }}
+            />
             <Button
               className="btn-adduser"
               type="primary"
@@ -45,10 +60,14 @@ const StyledContent = styled(Content)`
 
 const StyledCol = styled(Col)`
   display: flex;
+  margin-bottom: 1rem;
 
   .btn-adduser {
     margin-left: auto;
-    margin-bottom: 1rem;
   }
+`;
+
+const FilterInput = styled(Input)`
+  max-width: 360px;
 `;
 export default CrudPage;

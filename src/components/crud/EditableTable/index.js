@@ -30,13 +30,28 @@ const EditableTable = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    setData([
-      ...state.users.users.map((item, nIndex) => {
-        return {
-          ...item,
-        };
-      }),
-    ]);
+    const filteredOne = state.users.users.filter((item, nIndex) => {
+      if (state.users.filter.strValue.length === 0) return true;
+      else {
+        let isFiltered = false;
+        Object.keys(item).forEach((itemOne) => {
+          console.log(itemOne);
+          if (
+            itemOne !== 'createdAt' &&
+            itemOne !== 'updatedAt' &&
+            !isFiltered
+          ) {
+            isFiltered =
+              item[itemOne]
+                .toString()
+                .toUpperCase()
+                .indexOf(state.users.filter.strValue.toUpperCase()) >= 0;
+          }
+        });
+        return isFiltered;
+      }
+    });
+    setData([...filteredOne]);
   }, [state.users]);
 
   const edit = (record) => {
@@ -158,7 +173,7 @@ const EditableTable = () => {
       render: (_, record) => {
         const editable = isEditing(record);
         return editable ? (
-          <span>
+          <span style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <a
               onClick={() => save(record.key)}
               style={{

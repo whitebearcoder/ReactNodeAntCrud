@@ -32,6 +32,14 @@ export default function userReducer(state = {}, action) {
         ...state,
         users: state.users.filter((item) => item.id !== action.payload),
       };
+    case ACTION_TYPE.CHANGE_USER_FILTER_STRING:
+      return {
+        ...state,
+        filter: {
+          ...state.filter,
+          strValue: action.payload,
+        },
+      };
     default:
       return {
         ...state,
