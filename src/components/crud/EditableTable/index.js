@@ -49,7 +49,7 @@ const EditableTable = () => {
     setEditingKey(record.key);
   };
 
-  const cancel = () => {
+  const cancelEdit = () => {
     setEditingKey('');
   };
 
@@ -88,6 +88,20 @@ const EditableTable = () => {
     }
   };
 
+  const deleteUser = async (key) => {
+    RequestHelper.delete(`/user/${key}`)
+      .then((res) => {
+        if (res.data.success)
+          dispatch({
+            type: ACTION_TYPE.DELETE_USER,
+            payload: key,
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const columns = [
     {
       title: 'Id',
@@ -114,14 +128,13 @@ const EditableTable = () => {
       editable: true,
     },
     {
-      title: 'operation',
+      title: 'Action',
       dataIndex: 'operation',
       render: (_, record) => {
         const editable = isEditing(record);
         return editable ? (
           <span>
             <a
-              href="javascript:;"
               onClick={() => save(record.key)}
               style={{
                 marginRight: 8,
@@ -129,14 +142,27 @@ const EditableTable = () => {
             >
               Save
             </a>
-            <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
+            <Popconfirm title="Sure to cancel?" onConfirm={cancelEdit}>
               <a>Cancel</a>
             </Popconfirm>
           </span>
         ) : (
-          <a disabled={editingKey !== ''} onClick={() => edit(record)}>
-            Edit
-          </a>
+          <span>
+            <a disabled={editingKey !== ''} onClick={() => edit(record)}>
+              Edit
+            </a>
+            <Popconfirm
+              title="Are you sure？"
+              okText="Yes"
+              cancelText="No"
+              onConfirm={() => {
+                deleteUser(record.key);
+              }}
+            >
+              <a>Delete</a>
+            </Popconfirm>
+            ,
+          </span>
         );
       },
     },
@@ -170,7 +196,7 @@ const EditableTable = () => {
         columns={mergedColumns}
         rowClassName="editable-row"
         pagination={{
-          onChange: cancel,
+          onChange: cancelEdit,
         }}
       />
     </Form>

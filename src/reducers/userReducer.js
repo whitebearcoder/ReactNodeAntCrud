@@ -14,6 +14,11 @@ export default function userReducer(state = {}, action) {
           }),
         ],
       };
+    case ACTION_TYPE.ADD_USER:
+      return {
+        ...state,
+        users: [action.payload, ...state.users],
+      };
     case ACTION_TYPE.UPDATE_USER:
       return {
         ...state,
@@ -25,6 +30,7 @@ export default function userReducer(state = {}, action) {
     case ACTION_TYPE.DELETE_USER:
       return {
         ...state,
+        users: state.users.filter((item) => item.id !== action.payload),
       };
     default:
       return {

@@ -67,6 +67,21 @@ class RequestHelper {
       data: res.data,
     };
   };
+
+  delete = async (URL: string, queryObject: object) => {
+    const urlWithQuery = this.querify(CONFIG['API_URL'] + URL, queryObject);
+    const res = await axios.request({
+      url: urlWithQuery,
+      method: 'delete',
+      headers: this.makeHeader('DELETE'),
+    });
+    return {
+      headers: res.headers,
+      json: async () => res.data,
+      text: async () => res.data,
+      data: res.data,
+    };
+  };
 }
 
 export default new RequestHelper();
